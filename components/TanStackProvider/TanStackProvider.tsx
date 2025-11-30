@@ -1,37 +1,23 @@
 "use client";
 
-import React from "react";
-import {
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-import { Hydrate } from "@tanstack/react-query";
-
-let client: QueryClient | null = null;
-
-function getQueryClient() {
-  if (!client) {
-    client = new QueryClient();
-  }
-  return client;
-}
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Hydrate as RQHydrate } from "@tanstack/react-query";
 
 export default function TanStackProvider({
   children,
+  dehydratedState,
 }: {
   children: React.ReactNode;
+  dehydratedState?: unknown;
 }) {
-  const queryClient = getQueryClient();
+  const [client] = React.useState(() => new QueryClient());
 
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
-}
-
-export function HydrateClient({
-  state,
-  children,
-}: {
-  state: unknown;
-  children: React.ReactNode;
-}) {
-  return <Hydrate state={state}>{children}</Hydrate>;
+  return (
+    <QueryClientProvider client={client}>
+      <RQHydrate state={dehydratedState}>{children}</RQHydrate>
+      {/* Devtools optional */}
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+    </QueryClientProvider>
+  );
 }
