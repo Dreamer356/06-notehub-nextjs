@@ -1,20 +1,17 @@
 'use client';
 import React from 'react';
-import { QueryClient, useQuery, Hydrate } from '@tanstack/react-query';
+import { useQuery, QueryClient } from '@tanstack/react-query';
 import { fetchNotes, deleteNote } from '../../lib/api';
 import Link from 'next/link';
+import TanStackProvider from '../../components/TanStackProvider/TanStackProvider';
 
-type Props = {
-  dehydratedState?: unknown;
-};
-
-export default function NotesClient({ dehydratedState }: Props) {
+export default function NotesClient() {
   const [queryClient] = React.useState(() => new QueryClient());
 
   return (
-    <Hydrate state={dehydratedState}>
+    <TanStackProvider>
       <Inner />
-    </Hydrate>
+    </TanStackProvider>
   );
 }
 
@@ -35,7 +32,14 @@ function Inner() {
             <h3>{n.title}</h3>
             <p>{n.content}</p>
             <Link href={`/notes/${n.id}`}>View details</Link>{' '}
-            <button onClick={async () => { await deleteNote(n.id); location.reload(); }}>Delete</button>
+            <button
+              onClick={async () => {
+                await deleteNote(n.id);
+                location.reload();
+              }}
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>

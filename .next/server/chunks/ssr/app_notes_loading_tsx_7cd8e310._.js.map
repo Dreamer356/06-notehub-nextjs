@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../app/notes/loading.tsx"],"sourcesContent":["export default function Loading(){return <p>Loading, please wait...</p>}"],"names":[],"mappings":"uDAAe,SAAS,IAAU,MAAO,CAAA,EAAA,EAAA,GAAA,EAAC,IAAA,UAAE,2BAA2B"}
