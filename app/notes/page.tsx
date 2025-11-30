@@ -1,16 +1,18 @@
-import { dehydrate, QueryClient } from '@tanstack/react-query';
-import TanStackProvider from '../../components/TanStackProvider/TanStackProvider';
+import React from 'react';
 import NotesClient from './Notes.client';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { fetchNotes } from '../../lib/api';
 
+export const revalidate = 0;
+
 export default async function NotesPage() {
-  const qc = new QueryClient();
-  await qc.prefetchQuery(['notes'], fetchNotes);
-  const dehydratedState = dehydrate(qc);
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(['notes'], fetchNotes);
+  const dehydratedState = dehydrate(queryClient);
 
   return (
-    <TanStackProvider dehydratedState={dehydratedState}>
-      <NotesClient />
-    </TanStackProvider>
+    <div style={{ padding: 16 }}>
+      <NotesClient dehydratedState={dehydratedState} />
+    </div>
   );
 }
