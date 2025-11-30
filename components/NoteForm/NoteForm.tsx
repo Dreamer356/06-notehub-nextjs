@@ -1,73 +1,42 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import type { NoteTag } from "../../types/note";
-import css from "./NoteForm.module.css";
+import React from 'react';
+import styles from './NoteForm.module.css';
 
-interface NoteFormProps {
-  onSubmit: (data: { title: string; content: string; tag: NoteTag }) => void;
+interface Props {
+  onSubmit: (data: { title: string; content: string }) => void;
 }
 
-const TAGS: NoteTag[] = ["Todo", "Work", "Personal", "Meeting", "Shopping"];
+export default function NoteForm({ onSubmit }: Props) {
+  const [title, setTitle] = React.useState('');
+  const [content, setContent] = React.useState('');
 
-export const NoteForm = ({ onSubmit }: NoteFormProps) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tag, setTag] = useState<NoteTag>("Todo");
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     if (!title.trim() || !content.trim()) return;
-    onSubmit({ title: title.trim(), content: content.trim(), tag });
-    setTitle("");
-    setContent("");
-    setTag("Todo");
+    onSubmit({ title, content });
+    setTitle('');
+    setContent('');
   };
 
   return (
-    <form className={css.form} onSubmit={handleSubmit}>
-      <div className={css.fieldGroup}>
-        <label className={css.label}>
-          Title
-          <input
-            className={css.input}
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </label>
-      </div>
-      <div className={css.fieldGroup}>
-        <label className={css.label}>
-          Content
-          <textarea
-            className={css.textarea}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required
-          />
-        </label>
-      </div>
-      <div className={css.fieldGroup}>
-        <label className={css.label}>
-          Tag
-          <select
-            className={css.select}
-            value={tag}
-            onChange={(e) => setTag(e.target.value as NoteTag)}
-          >
-            {TAGS.map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-      <button className={css.button} type="submit">
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <input
+        type="text"
+        value={title}
+        onChange={e => setTitle(e.target.value)}
+        placeholder="Title"
+        className={styles.input}
+      />
+      <textarea
+        value={content}
+        onChange={e => setContent(e.target.value)}
+        placeholder="Content"
+        className={styles.textarea}
+      />
+      <button type="submit" className={styles.button}>
         Add note
       </button>
     </form>
   );
-};
+}

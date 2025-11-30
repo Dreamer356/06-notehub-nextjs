@@ -1,79 +1,66 @@
-"use client";
+'use client';
 
-import { useState, useMemo } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchNotes, createNote, deleteNote } from "../../lib/api";
-import type { Note } from "../../types/note";
-import { SearchBox } from "../../components/SearchBox/SearchBox";
-import { NoteList } from "../../components/NoteList/NoteList";
-import { NoteForm } from "../../components/NoteForm/NoteForm";
-import css from "./Notes.module.css";
+import React from 'react';
+import { Hydrate, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createNote, deleteNote, fetchNotes } from '../../lib/api';
+import type { Note } from '../../types/note';
+import SearchBox from '../../components/SearchBox/SearchBox';
+import NoteForm from '../../components/NoteForm/NoteForm';
+import NoteList from '../../components/NoteList/NoteList';
 
-export default function NotesClient() {
-  const [search, setSearch] = useState("");
+interface Props {
+  dehydratedState: unknown;
+}
+
+export default function NotesClient({ dehydratedState }: Props) {
+  return (
+    <Hydrate state={dehydratedState}>
+      <NotesInner />
+    </Hydrate>
+  );
+}
+
+function NotesInner() {
   const queryClient = useQueryClient();
+  const [search, setSearch] = React.useState('');
 
-  const {
-    data: notes = [],
-    isLoading,
-    error,
-  } = useQuery<Note[]>({
-    queryKey: ["notes"],
-    queryFn: fetchNotes,
-  });
+  const { data: notes = [], isLoading, error } = useQuery<Note[]>(['notes'], fetchNotes);
 
   const createMutation = useMutation({
     mutationFn: createNote,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["notes"] });
+      queryClient.invalidateQueries(['notes']);
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: deleteNote,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["notes"] });
+      queryClient.invalidateQueries(['notes']);
     },
   });
 
-  const filteredNotes = useMemo(() => {
-    const term = search.toLowerCase().trim();
-    if (!term) return notes;
-    return notes.filter(
-      (note) =>
-        note.title.toLowerCase().includes(term) ||
-        note.content.toLowerCase().includes(term)
-    );
-  }, [notes, search]);
+  const handleCreate = (payload: { title: string; content: string }) => {
+    createMutation.mutate(payload);
+  };
+
+  const handleDelete = (id: string) => {
+    deleteMutation.mutate(id);
+  };
 
   if (isLoading) return <p>Loading, please wait...</p>;
-  if (error) {
-    return (
-      <p>Could not fetch the list of notes.</p>
-    );
-  }
+  if (error) return <p>Could not fetch the list of notes.</p>;
+
+  const filtered = notes.filter(note =>
+    note.title.toLowerCase().includes(search.toLowerCase()) ||
+    note.content.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-    <div className={css.container}>
-      <h1 className={css.title}>Notes</h1>
+    <main>
       <SearchBox value={search} onChange={setSearch} />
-      <div className={css.layout}>
-        <section className={css.formSection}>
-          <h2 className={css.sectionTitle}>Create a new note</h2>
-          <NoteForm onSubmit={(data) => createMutation.mutate(data)} />
-        </section>
-        <section className={css.listSection}>
-          <h2 className={css.sectionTitle}>Your notes</h2>
-          {filteredNotes.length === 0 ? (
-            <p>No notes found.</p>
-          ) : (
-            <NoteList
-              notes={filteredNotes}
-              onDelete={(id) => deleteMutation.mutate(id)}
-            />
-          )}
-        </section>
-      </div>
-    </div>
+      <NoteForm onSubmit={handleCreate} />
+      <NoteList notes={filtered} onDelete={handleDelete} />
+    </main>
   );
 }

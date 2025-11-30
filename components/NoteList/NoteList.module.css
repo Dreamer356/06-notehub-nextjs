@@ -1,76 +1,53 @@
 .list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-  .listItem {
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 180px;
-  }
+.item {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+}
 
-  .title {
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0 0 8px 0;
-    color: #212529;
-  }
+.title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
 
-  .content {
-    margin: 0;
-    flex-grow: 1;
-    font-size: 14px;
-    color: #495057;
-    margin-bottom: 12px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+.content {
+  font-size: 14px;
+  color: #4b5563;
+  margin-bottom: 8px;
+}
 
-  .button {
-    align-self: flex-end;
-    padding: 6px 12px;
-    font-size: 14px;
-    color: #fff;
-    background-color: #dc3545;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
 
-  .button:hover {
-    background-color: #bb2d3b;
-  }
+.link {
+  font-size: 14px;
+  color: #0d6efd;
+  text-decoration: none;
+}
 
-  .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: auto;
-  }
+.link:hover {
+  text-decoration: underline;
+}
 
-  .tag {
-    display: inline-block;
-    padding: 4px 8px;
-    font-size: 12px;
-    color: #0d6efd;
-    background-color: #e7f1ff;
-    border: 1px solid #b6d4fe;
-    border-radius: 12px;
-    max-width: 100px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+.button {
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 4px;
+  border: 1px solid #dc2626;
+  background-color: #ef4444;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #dc2626;
+}

@@ -1,29 +1,32 @@
-import Link from "next/link";
-import type { Note } from "../../types/note";
-import css from "./NoteList.module.css";
+'use client';
 
-interface NoteListProps {
+import Link from 'next/link';
+import styles from './NoteList.module.css';
+import type { Note } from '../../types/note';
+
+interface Props {
   notes: Note[];
   onDelete: (id: string) => void;
 }
 
-export const NoteList = ({ notes, onDelete }: NoteListProps) => {
+export default function NoteList({ notes, onDelete }: Props) {
+  if (notes.length === 0) {
+    return <p>No notes found.</p>;
+  }
+
   return (
-    <ul className={css.list}>
-      {notes.map((note) => (
-        <li key={note.id} className={css.listItem}>
-          <h2 className={css.title}>{note.title}</h2>
-          <p className={css.content}>{note.content}</p>
-          <div className={css.footer}>
-            <span className={css.date}>
-              {new Date(note.createdAt).toLocaleString()}
-            </span>
-            <span className={css.tag}>{note.tag}</span>
-            <Link href={`/notes/${note.id}`} className={css.link}>
+    <ul className={styles.list}>
+      {notes.map(note => (
+        <li key={note.id} className={styles.item}>
+          <h3 className={styles.title}>{note.title}</h3>
+          <p className={styles.content}>{note.content}</p>
+          <div className={styles.actions}>
+            <Link href={`/notes/${note.id}`} className={styles.link}>
               View details
             </Link>
             <button
-              className={css.button}
+              type="button"
+              className={styles.button}
               onClick={() => onDelete(note.id)}
             >
               Delete
@@ -33,4 +36,4 @@ export const NoteList = ({ notes, onDelete }: NoteListProps) => {
       ))}
     </ul>
   );
-};
+}
