@@ -1,2 +1,25 @@
-.footer { border-top:1px solid #eee; padding:16px; background:#fafafa; }
-.content { max-width:900px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; } .wrap p { margin:0; }
+.footer {
+  margin-top: 40px;
+  padding: 16px 24px;
+  background-color: #212529;
+  color: #f8f9fa;
+}
+
+.content {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 14px;
+}
+
+a {
+  color: #0d6efd;
+}

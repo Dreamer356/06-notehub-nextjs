@@ -1,19 +1,27 @@
-import './globals.css';
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
-import TanStackProvider from '../components/TanStackProvider/TanStackProvider';
+import type { Metadata } from "next";
+import "./globals.css";
+import Header from "../components/Header/Header";
+import Footer from "../components/Footer/Footer";
+import TanStackProvider from "../components/TanStackProvider/TanStackProvider";
 
-export const metadata = {
-  title: 'NoteHub',
-  description: 'NoteHub app',
+export const metadata: Metadata = {
+  title: "NoteHub",
+  description: "NoteHub application",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
-        <TanStackProvider>{children}</TanStackProvider>
-        <Footer />
+        <TanStackProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </TanStackProvider>
       </body>
     </html>
   );

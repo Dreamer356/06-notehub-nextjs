@@ -1,6 +1,0 @@
-1:"$Sreact.fragment"
-2:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/117bfe402b75b387.js"],"OutletBoundary"]
-3:"$Sreact.suspense"
-:HL["/_next/static/chunks/e619f512a9788a1b.css","style"]
-0:{"buildId":"LDWjcNWs4z53K7r9HOIPI","rsc":["$","$1","c",{"children":[["$","main",null,{"children":["$","div",null,{"className":"page-module__E0kJGG__container","children":[["$","h1",null,{"className":"page-module__E0kJGG__title","children":"Welcome to NoteHub"}],["$","p",null,{"className":"page-module__E0kJGG__description","children":"NoteHub is a simple and efficient application designed for managing personal notes. It helps keep your thoughts organized and accessible in one place, whether you are at home or on the go."}],["$","p",null,{"className":"page-module__E0kJGG__description","children":"The app provides a clean interface for writing, editing, and browsing notes. With support for keyword search and structured organization, NoteHub offers a streamlined experience for anyone who values clarity and productivity."}]]}]}],[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/e619f512a9788a1b.css","precedence":"next"}]],["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"loading":null,"isPartial":false}
-4:null

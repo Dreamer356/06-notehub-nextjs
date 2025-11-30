@@ -1,3 +1,19 @@
-.container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-.title { font-size: 2rem; margin-bottom: 16px; }
-.description { color: #444; line-height: 1.5; }
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.title {
+  font-size: 32px;
+  margin-bottom: 16px;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}

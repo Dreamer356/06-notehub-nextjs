@@ -1,33 +1,50 @@
-import axios from 'axios';
-import { Note } from '../types/note';
+import axios from "axios";
+import type { Note, NoteTag } from "../types/note";
 
-const BASE_URL = process.env.NEXT_PUBLIC_NOTEHUB_BASE_URL || 'https://notehub-api.fly.dev';
+const BASE_URL =
+  process.env.NEXT_PUBLIC_NOTEHUB_BASE_URL || "https://notehub-public.goit.study/api";
 
-const token = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN || '';
+const token = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 
-const api = axios.create({
+export const noteApi = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    Authorization: token ? `Bearer ${token}` : undefined,
-    'Content-Type': 'application/json',
-  },
+  headers: token
+    ? {
+        Authorization: `Bearer ${token}`,
+      }
+    : undefined,
 });
 
-export const fetchNotes = async (): Promise<Note[]> => {
-  const resp = await api.get('/notes');
-  return resp.data;
-};
+export interface FetchNotesParams {
+  search?: string;
+}
 
-export const fetchNoteById = async (id: string): Promise<Note> => {
-  const resp = await api.get(`/notes/${id}`);
-  return resp.data;
-};
+export async function fetchNotes(): Promise<Note[]> {
+  const response = await noteApi.get<Note[]>("/notes");
+  return response.data;
+}
 
-export const createNote = async (note: Partial<Note>): Promise<Note> => {
-  const resp = await api.post('/notes', note);
-  return resp.data;
-};
+export interface CreateNoteParams {
+  title: string;
+  content: string;
+  tag: NoteTag;
+}
 
-export const deleteNote = async (id: string): Promise<void> => {
-  await api.delete(`/notes/${id}`);
-};
+export async function createNote(data: CreateNoteParams): Promise<Note> {
+  const response = await noteApi.post<Note>("/notes", data);
+  return response.data;
+}
+
+export interface DeleteNoteResponse {
+  id: string;
+}
+
+export async function deleteNote(id: string): Promise<DeleteNoteResponse> {
+  const response = await noteApi.delete<DeleteNoteResponse>(`/notes/${id}`);
+  return response.data;
+}
+
+export async function fetchNoteById(id: string): Promise<Note> {
+  const response = await noteApi.get<Note>(`/notes/${id}`);
+  return response.data;
+}
