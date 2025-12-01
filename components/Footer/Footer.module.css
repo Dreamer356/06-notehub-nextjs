@@ -1,29 +1,25 @@
-.footer {
-  border-top: 1px solid #e5e5e5;
-  padding: 16px 32px;
-  margin-top: 32px;
-  background-color: #ffffff;
-}
 
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.footer {
+  padding: 20px;
+  background-color: #f0f0f0;
+  text-align: center;
   font-size: 14px;
-  color: #4b5563;
+  color: #555;
+  border-top: 1px solid #ddd;
 }
 
 .wrap {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  justify-content: center;
+  gap: 20px;
 }
 
-.wrap a {
-  color: #0d6efd;
+.footer a {
+  color: #226ec5;
+  font-weight: 600;
   text-decoration: none;
 }
 
-.wrap a:hover {
+.footer a:hover {
   text-decoration: underline;
 }

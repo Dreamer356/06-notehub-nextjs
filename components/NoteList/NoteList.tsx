@@ -1,33 +1,38 @@
-'use client';
+"use client";
+import type { Note } from "@/types/note";
+import css from "./NoteList.module.css";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
+import { deleteNote } from "@/lib/api";
 
-import Link from 'next/link';
-import styles from './NoteList.module.css';
-import type { Note } from '../../types/note';
-
-interface Props {
+interface NoteListProps {
   notes: Note[];
-  onDelete: (id: string) => void;
 }
 
-export default function NoteList({ notes, onDelete }: Props) {
-  if (notes.length === 0) {
-    return <p>No notes found.</p>;
-  }
+ const NoteList = ({ notes }: NoteListProps) => {
+  const queryClient = useQueryClient();
 
+  const mutation = useMutation({
+    mutationFn: deleteNote,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+    },
+  });
   return (
-    <ul className={styles.list}>
-      {notes.map(note => (
-        <li key={note.id} className={styles.item}>
-          <h3 className={styles.title}>{note.title}</h3>
-          <p className={styles.content}>{note.content}</p>
-          <div className={styles.actions}>
-            <Link href={`/notes/${note.id}`} className={styles.link}>
+    <ul className={css.list}>
+      {notes.map((note) => (
+        <li key={note.id} className={css.listItem}>
+          <h2 className={css.title}>{note.title}</h2>
+          <p className={css.content}>{note.content}</p>
+
+          <div className={css.footer}>
+            <span className={css.tag}>{note.tag}</span>
+            <Link href={`/notes/${note.id}`} className={css.details}>
               View details
             </Link>
             <button
-              type="button"
-              className={styles.button}
-              onClick={() => onDelete(note.id)}
+              className={css.button}
+              onClick={() => mutation.mutate(note.id)}
             >
               Delete
             </button>
@@ -36,4 +41,6 @@ export default function NoteList({ notes, onDelete }: Props) {
       ))}
     </ul>
   );
-}
+};
+
+export default NoteList
